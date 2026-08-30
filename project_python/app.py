@@ -124,7 +124,7 @@ def main():
     # تنظیم ستون‌ها برای بزرگ‌تر کردن و وسط‌چین کردن دقیق لوگو
     col_l, col_c, col_r = st.columns([1, 1, 1])
     with col_c:
-        st.image("logo.png", use_container_width=True)
+        st.image("st.image("project_python/logo.png")", use_container_width=True)
 
     # وسط‌نویس کردن عنوان اصلی صفحه
     st.markdown("<h1 style='text-align: center;'>سیستم هوشمند ارزیابی عملکرد منابع انسانی</h1>", unsafe_allow_html=True)
