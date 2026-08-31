@@ -66,7 +66,7 @@ def generate_ai_report(name, role, exp, skills, average, status):
     try:
         client = OpenAI(
             base_url="https://api.gapgpt.app/v1",
-            api_key="sk-CT4lWwidP78lYUDgPgDJD7OB1ORx0iJJD2rzYE0FIlP4BVbq"
+            api_key = st.secrets["MY_API_KEY"]
         )
 
         response = client.chat.completions.create(
