@@ -69,7 +69,7 @@ def generate_ai_report(name, role, exp, skills, average, status):
         system_instruction = "تو یک مدیر منابع انسانی در یک شرکت فناوری هستی که گزارش‌های دقیق به زبان فارسی می‌نویسد."
         
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-2.0-flash",
             system_instruction=system_instruction
         )
 
