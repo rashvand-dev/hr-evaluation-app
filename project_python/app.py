@@ -64,23 +64,17 @@ def generate_ai_report(name, role, exp, skills, average, status):
 
     # Try to connect to AI. If it fails, don't crash the app.
     try:
-        client = OpenAI(
-            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-            api_key = st.secrets["MY_API_KEY"],
-            # Fix timeout issue on Streamlit Cloud
-            timeout=60.0
+        genai.configure(api_key=st.secrets["MY_API_KEY"])
+        
+        system_instruction = "تو یک مدیر منابع انسانی در یک شرکت فناوری هستی که گزارش‌های دقیق به زبان فارسی می‌نویسد."
+        
+        model = genai.GenerativeModel(
+            model_name="gemini-1.5-flash",
+            system_instruction=system_instruction
         )
 
-        response = client.chat.completions.create(
-            model="gemini-1.5-flash",
-            messages=[
-                {"role": "system", "content": "تو یک مدیر منابع انسانی در یک شرکت فناوری هستی که گزارش‌های دقیق به زبان فارسی می‌نویسد."},
-                {"role": "user", "content": prompt}
-            ]
-        )
-
-        ai_message = response.choices[0].message.content
-        ai_report = str(ai_message) if ai_message is not None else "پاسخی دریافت نشد."
+        response = model.generate_content(prompt)
+        ai_report = response.text if response.text else "پاسخی دریافت نشد."
 
     # If there is an error, save the error message here.
     except Exception as e:
