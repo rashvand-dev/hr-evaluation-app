@@ -92,13 +92,12 @@ def main():
     st.set_page_config(page_title="سیستم پیشرفته منابع انسانی", page_icon="logo.png", layout="wide")
     init_db()
 
-    # تزریق استایل‌های CSS فقط برای راست‌چین کردن اصولی
+# UI Fixes: RTL & Mobile Layout
     st.markdown("""
         <style>
-        .stApp {
+        .block-container {
             direction: rtl;
         }
-        /* قالب‌بندی استاندارد خروجی هوش مصنوعی */
         .ai-output-box {
             direction: rtl;
             text-align: right;
@@ -117,6 +116,13 @@ def main():
         .ai-output-box ul, .ai-output-box ol {
             text-align: right;
             padding-right: 20px;
+        }
+        @media (max-width: 768px) {
+            [data-testid="column"] {
+                width: 100% !important;
+                flex: 1 1 100% !important;
+                min-width: 100% !important;
+            }
         }
         </style>
     """, unsafe_allow_html=True)
