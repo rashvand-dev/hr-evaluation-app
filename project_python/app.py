@@ -67,6 +67,8 @@ def generate_ai_report(name, role, exp, skills, average, status):
         client = OpenAI(
             base_url="https://api.gapgpt.app/v1",
             api_key = st.secrets["MY_API_KEY"]
+            # Fix timeout issue on Streamlit Cloud
+            timeout=60.0
         )
 
         response = client.chat.completions.create(
