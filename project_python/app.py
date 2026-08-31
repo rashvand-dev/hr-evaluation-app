@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from google import genai
+import google.generativeai as genai
 import io
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
