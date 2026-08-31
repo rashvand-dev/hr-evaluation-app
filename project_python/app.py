@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from openai import OpenAI
+from google import genai
 import io
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -62,32 +62,31 @@ def generate_ai_report(name, role, exp, skills, average, status):
     ۳. خروجی را با ساختار تمیز و تیتربندی مناسب (استفاده از علامت # برای تیترها و بولت‌پوینت) به زبان فارسی بنویس.
     """
 
-    # Try to connect to AI. If it fails, don't crash the app.
-    try:
-        client = OpenAI(
-            base_url="https://api.gapgpt.app/v1",
-            api_key = st.secrets["MY_API_KEY"],
-            # Fix timeout issue on Streamlit Cloud
-            timeout=60.0
-        )
+# Try to connect to AI. If it fails, don't crash the app.
+try:
+    client = OpenAI(
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+        api_key = st.secrets["MY_API_KEY"],
+        # Fix timeout issue on Streamlit Cloud
+        timeout=60.0
+    )
 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system",
-                 "content": "تو یک مدیر منابع انسانی در یک شرکت فناوری هستی که گزارش‌های دقیق به زبان فارسی می‌نویسد."},
-                {"role": "user", "content": prompt}
-            ]
-        )
+    response = client.chat.completions.create(
+        model="gemini-1.5-flash",
+        messages=[
+            {"role": "system", "content": "تو یک مدیر منابع انسانی در یک شرکت فناوری هستی که گزارش‌های دقیق به زبان فارسی می‌نویسد."},
+            {"role": "user", "content": prompt}
+        ]
+    )
 
-        ai_message = response.choices[0].message.content
-        ai_report = str(ai_message) if ai_message is not None else "پاسخی دریافت نشد."
+    ai_message = response.choices[0].message.content
+    ai_report = str(ai_message) if ai_message is not None else "پاسخی دریافت نشد."
 
-    # If there is an error, save the error message here.
-    except Exception as e:
-        ai_report = f"خطا در ارتباط با ماژول هوش مصنوعی. خطا: {e}"
+# If there is an error, save the error message here.
+except Exception as e:
+    ai_report = f"خطا در ارتباط با ماژول هوش مصنوعی. خطا: {e}"
 
-    return ai_report
+return ai_report
 
 
 def main():
